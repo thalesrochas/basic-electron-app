@@ -3,7 +3,8 @@ const mysql = require('mysql');
 const url = require('url');
 const path = require('path');
 
-const {app, BrowserWindow} = electron;
+const app = electron.app;
+const BrowserWindow = electron.BrowserWindow;
 
 let mainWindow;
 
@@ -33,17 +34,25 @@ app.on('ready', function() {
 
     connection.query('SELECT nome_empregado, cidade FROM empregado WHERE cidade = ?', [cidade],
     function(error, results, fields) {
+        // Create new window
+        mainWindow = new BrowserWindow({});
+
+        // Load html file into window
+        mainWindow.loadURL(url.format({
+            pathname: path.join(__dirname, 'mainWindow.html'),
+            protocol: 'file:',
+            slashes: true
+        }));
+
+        // Enviando informações para mainWindow.html
+        mainWindow.webContents.on('did-finish-load', () => {
+            mainWindow.webContents.send('dados', results);
+        });
+
+        /*
         results.forEach(function(data) {
             console.log('Nome: ' + data.nome_empregado + '\tCidade: ' + data.cidade);
         });
+        */
     });
-
-    // Create new window
-    mainWindow = new BrowserWindow({});
-    // Load html file into window
-    mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'mainWindow.html'),
-        protocol: 'file:',
-        slashes: true
-    }));
 });

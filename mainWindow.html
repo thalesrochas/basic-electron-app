@@ -5,5 +5,27 @@
 </head>
 <body>
     <h1>Testes</h1>
+
+    <div id="nomes"></div>
+
+    <script>
+        const electron = require('electron');
+        const ipcRenderer = electron.ipcRenderer;
+
+        ipcRenderer.on('dados', function(event, message) {
+            let div = document.getElementById('nomes');
+            let fragment = document.createDocumentFragment();
+            
+            message.forEach(function(data) {
+                console.log(data.nome_empregado);
+                //document.write(data.nome_empregado);
+                let h2 = document.createElement('h2');
+                h2.textContent = data.nome_empregado;
+                fragment.appendChild(h2);
+            });
+            
+            div.appendChild(fragment);
+        });
+    </script>
 </body>
 </html>
