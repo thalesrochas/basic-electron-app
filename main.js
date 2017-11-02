@@ -32,8 +32,7 @@ app.on('ready', function() {
 
     let cidade = 'Sobral';
 
-    connection.query('SELECT nome_empregado, cidade FROM empregado WHERE cidade = ?', [cidade],
-    function(error, results, fields) {
+    connection.query('SELECT * FROM empregado', function(error, results, fields) {
         // Create new window
         mainWindow = new BrowserWindow({});
 
@@ -48,11 +47,5 @@ app.on('ready', function() {
         mainWindow.webContents.on('did-finish-load', () => { // Se a página terminou de carregar
             mainWindow.webContents.send('dados', results);   // Envie os dados
         });
-
-        /*
-        results.forEach(function(data) {
-            console.log('Nome: ' + data.nome_empregado + '\tCidade: ' + data.cidade);
-        });
-        */
     });
 });
