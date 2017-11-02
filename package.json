@@ -1,0 +1,15 @@
+{
+  "name": "testesbd",
+  "version": "1.0.0",
+  "description": "Projeto utilizado para testes do electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Thales Rocha",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^1.7.9",
+    "mysql": "^2.15.0"
+  }
+}
