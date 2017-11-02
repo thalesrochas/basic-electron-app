@@ -45,8 +45,8 @@ app.on('ready', function() {
         }));
 
         // Enviando informações para mainWindow.html
-        mainWindow.webContents.on('did-finish-load', () => {
-            mainWindow.webContents.send('dados', results);
+        mainWindow.webContents.on('did-finish-load', () => { // Se a página terminou de carregar
+            mainWindow.webContents.send('dados', results);   // Envie os dados
         });
 
         /*

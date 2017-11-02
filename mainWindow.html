@@ -9,22 +9,27 @@
     <div id="nomes"></div>
 
     <script>
+        // Importando os módulos
         const electron = require('electron');
         const ipcRenderer = electron.ipcRenderer;
 
+        // Recebendo os dados passados pelo 'main.js'
         ipcRenderer.on('dados', function(event, message) {
+            // Coletando ID do div
             let div = document.getElementById('nomes');
-            let fragment = document.createDocumentFragment();
+            // Criando fragmento de página html
+            //let fragment = document.createDocumentFragment();
             
+            // Para cada elemento recebido
             message.forEach(function(data) {
                 console.log(data.nome_empregado);
-                //document.write(data.nome_empregado);
-                let h2 = document.createElement('h2');
-                h2.textContent = data.nome_empregado;
-                fragment.appendChild(h2);
+                
+                let h2 = document.createElement('h2'); // Cria um elemento h2
+                h2.textContent = data.nome_empregado; // Atribui um valor ao texto de h2
+                //fragment.appendChild(h2);
+                div.appendChild(h2); // Adiciona ao html
             });
-            
-            div.appendChild(fragment);
+            //div.appendChild(fragment);
         });
     </script>
 </body>
