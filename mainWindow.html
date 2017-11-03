@@ -1,12 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <title>Testes</title>
+    <title>Empregado</title>
+    <!-- Bootstrap -->
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Testes</h1>
+    <h1>Empregado</h1>
 
-    <div id="nomes"></div>
+    <!-- <div id="nomes" class="container"></div> -->
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Mat.</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Rua</th>
+                <th scope="col">Cidade</th>
+            </tr>
+        </thead>
+        <tbody id="corpoTabela"></tbody>
+    </table>
 
     <script src="scripts/dataExhibition.js"></script>
 </body>

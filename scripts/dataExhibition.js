@@ -4,27 +4,25 @@ const ipcRenderer = electron.ipcRenderer;
 
 // Recebendo os dados passados pelo 'main.js'
 ipcRenderer.on('dados', function(event, message) {
-    // Coletando ID do div
-    let div = document.getElementById('nomes');
-    
-    // Para cada elemento recebido
+    // Coletando ID do tbody
+    let tbody = document.getElementById('corpoTabela');
+
     message.forEach(function(data) {
-        let h3 = document.createElement('h3'); // Cria um elemento h1
-        let ul = document.createElement('ul'); // Cria um elemento ol
-        let li1 = document.createElement('li'); // Cria um elemento li
-        let li2 = document.createElement('li'); // Cria um elemento li
-        let li3 = document.createElement('li'); // Cria um elemento li
+        let tr = document.createElement('tr');
+        let th = document.createElement('th');
+        let td1 = document.createElement('td');
+        let td2 = document.createElement('td');
+        let td3 = document.createElement('td');
 
-        h3.textContent = data.nome_empregado; // Atribui um valor ao texto de h1
-        li1.textContent = data.matricula;
-        li2.textContent = data.rua;
-        li3.textContent = data.cidade;
-        
-        ul.appendChild(li1);
-        ul.appendChild(li2);
-        ul.appendChild(li3);
+        th.textContent = data.matricula;
+        td1.textContent = data.nome_empregado;
+        td2.textContent = data.rua;
+        td3.textContent = data.cidade;
 
-        div.appendChild(h3);
-        div.appendChild(ul);
+        tr.appendChild(th);
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tbody.appendChild(tr);
     });
 });
