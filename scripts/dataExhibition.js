@@ -3,7 +3,7 @@ const electron = require('electron');
 const ipcRenderer = electron.ipcRenderer;
 
 // Recebendo os dados passados pelo 'main.js'
-ipcRenderer.on('dados', function(event, message) {
+ipcRenderer.on('dados', function (event, message) {
     // Coletando ID do tbody
     let tbody = document.getElementById('corpoTabela');
 

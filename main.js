@@ -5,11 +5,14 @@ const path = require('path');
 
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+const ipcMain = electron.ipcMain;
 
 let mainWindow;
 
 // Listen for app to be ready
-app.on('ready', function() {
+app.on('ready', function () {
+    mainWindow = new BrowserWindow({});
+
     // Creating connection
     let connection = mysql.createConnection({
         host: 'localhost',
@@ -19,7 +22,7 @@ app.on('ready', function() {
     });
 
     // Connecting with database
-    connection.connect(function(err) {
+    connection.connect(function (err) {
         if (err) {
             console.error('Erro na conexão: ' + err.stack);
             console.log('Encerrando aplicação!');
@@ -28,17 +31,17 @@ app.on('ready', function() {
         console.log('Conexão bem sucedida!\nConection ID: ' + connection.threadId);
     });
 
-    // SQL Query
-
-    let cidade = 'Sobral';
-
-    connection.query('SELECT * FROM empregado', function(error, results, fields) {
-        // Create new window
-        mainWindow = new BrowserWindow({});
-
+    mainWindow.loadURL(url.format({
+        pathname: 'html/formWindow.html',
+        protocol: 'file:',
+        slashes: true
+    }));
+    
+    /*// SQL Query
+    connection.query('SELECT * FROM `empregado`', function (error, results, fields) {
         // Load html file into window
         mainWindow.loadURL(url.format({
-            pathname: path.join(__dirname, 'mainWindow.html'),
+            pathname: 'html/formWindow.html',
             protocol: 'file:',
             slashes: true
         }));
@@ -46,6 +49,30 @@ app.on('ready', function() {
         // Enviando informações para mainWindow.html
         mainWindow.webContents.on('did-finish-load', () => { // Se a página terminou de carregar
             mainWindow.webContents.send('dados', results);   // Envie os dados
+        });
+    });*/
+
+    // Retorna valores do BD após a entrada de um usuário.
+    ipcMain.on('mensagem', function (event, arg) {
+        console.log(arg);
+
+        connection.query('SELECT * FROM `empregado` WHERE `nome_empregado` like ?', ('%' + [arg] + '%'),
+                function (error, results, fields) {
+                    console.log(results.length);
+                    if (!results.length) {
+                        ('Nenhum resultado encontrado!');
+                    }
+                    else {
+                        mainWindow.loadURL(url.format({
+                            pathname: 'html/mainWindow.html',
+                            protocol: 'file:',
+                            slashes: true
+                        }));
+    
+                        mainWindow.webContents.on('did-finish-load', () => {
+                            mainWindow.webContents.send('dados', results);
+                        });
+                    }
         });
     });
 });
