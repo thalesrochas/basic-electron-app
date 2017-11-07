@@ -56,11 +56,11 @@ app.on('ready', function () {
     ipcMain.on('mensagem', function (event, arg) {
         console.log(arg);
 
-        connection.query('SELECT * FROM `empregado` WHERE `nome_empregado` like ?', ('%' + [arg] + '%'),
+        connection.query('SELECT * FROM `empregado` WHERE `nome_empregado` like ?', ([arg] + '%'),
                 function (error, results, fields) {
                     console.log(results.length);
                     if (!results.length) {
-                        ('Nenhum resultado encontrado!');
+                        console.log('Nenhum resultado encontrado!');
                     }
                     else {
                         mainWindow.loadURL(url.format({
@@ -68,7 +68,7 @@ app.on('ready', function () {
                             protocol: 'file:',
                             slashes: true
                         }));
-    
+
                         mainWindow.webContents.on('did-finish-load', () => {
                             mainWindow.webContents.send('dados', results);
                         });
